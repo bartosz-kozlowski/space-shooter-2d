@@ -2,6 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Zarządza wyświetlaniem interfejsu gracza (HUD) podczas rozgrywki.
+/// Aktualizuje pasek zdrowia, wynik punktowy i kolory UI w zależności od wybranej postaci.
+/// </summary>
 public class UIUpdater : MonoBehaviour
 {
     [Header("Health")]
@@ -21,6 +25,9 @@ public class UIUpdater : MonoBehaviour
     static readonly Color blueBottom = new Color(0x6B / 255f, 0xAB / 255f, 0xFF / 255f, 1f);
     static readonly Color orangeColor = new Color(1f, 0.5f, 0f, 1f);
 
+    /// <summary>
+    /// Inicjalizuje HUD — znajduje gracza, singletonów i ustawia wstępne wartości.
+    /// </summary>
     void Start()
     {
         InitializePlayerHealth();
@@ -33,6 +40,9 @@ public class UIUpdater : MonoBehaviour
         ApplyScoreTextColor();
     }
 
+    /// <summary>
+    /// Wyszukuje gracza wśród wszystkich Health komponentów na scenie.
+    /// </summary>
     void InitializePlayerHealth()
     {
         healthList = FindObjectsByType<Health>(FindObjectsSortMode.None);
@@ -47,6 +57,10 @@ public class UIUpdater : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Ustawia kolor tekstu wyniku w zależności od wybranego statku gracza.
+    /// Niebieski statek — gradient, zielony statek — pomarańczowy.
+    /// </summary>
     void ApplyScoreTextColor()
     {
         if (charSelectManager.GetCurrentShipIndex() == 0)
@@ -61,6 +75,9 @@ public class UIUpdater : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Aktualizuje HUD każdej klatce: wynik i pasek zdrowia gracza.
+    /// </summary>
     void Update()
     {
         scoreText.text = scoreKeeper.GetScore().ToString("000000");

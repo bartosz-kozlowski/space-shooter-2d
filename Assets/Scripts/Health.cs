@@ -1,8 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Zarządza zdrowiem gracza i wrogów — obsługuje obrażenia, tarczę, śmierć i spawning power-upów.
+/// Rozróżnia zachowanie gracza (GameOver) od wrogów (dodanie wyniku, power-up przy śmierci).
+/// </summary>
 public class Health : MonoBehaviour
 {
     [SerializeField] bool isPlayer;
@@ -23,6 +25,9 @@ public class Health : MonoBehaviour
 
     PowerUpSpawner powerUpSpawner;
 
+    /// <summary>
+    /// Inicjalizuje maksymalne zdrowie i znajduje referencje do systemów (CameraShake, AudioManager, itp.).
+    /// </summary>
     void Start()
     {
         maxHealth = health;
@@ -33,28 +38,31 @@ public class Health : MonoBehaviour
         powerUpSpawner = FindFirstObjectByType<PowerUpSpawner>();
     }
 
+    /// <summary>
+    /// Zwraca aktualne zdrowie.
+    /// </summary>
     public int GetHealth()
     {
         return health;
     }
 
+    /// <summary>
+    /// Zwiększa zdrowie o podaną ilość, ale nie przekracza maksymalnego zdrowia.
+    /// </summary>
     public void Heal(int amount)
     {
         health = Mathf.Min(health + amount, maxHealth);
     }
 
+    /// <summary>
+    /// Obsługuje kolizję z projektylami — pobiera obrażenia, odtwarza efekty i dźwięk.
+    /// </summary>
     void OnTriggerEnter2D(Collider2D collision)
     {
         DamageDealer damageDealer = collision.GetComponent<DamageDealer>();
-        int enemyLayerIndex = LayerMask.NameToLayer("Enemy");
 
         if (damageDealer != null)
         {
-            // if (isPlayer && collision.gameObject.layer == enemyLayerIndex)
-            // {
-            //     DeactivateShield();
-            // }
-
             TakeDamage(damageDealer.GetDamage());
             PlayHitParticles();
             damageDealer.Hit();
@@ -67,6 +75,9 @@ public class Health : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Aplikuje obrażenia do zdrowia — jeśli tarcza jest aktywna, absorbuje jedno trafienie i się dezaktywuje.
+    /// </summary>
     void TakeDamage(int damage)
     {
         if (isShieldActive)
@@ -78,11 +89,14 @@ public class Health : MonoBehaviour
         health -= damage;
 
         if (health <= 0)
-        {   
+        {
             Die();
         }
     }
 
+    /// <summary>
+    /// Obsługuje śmierć — dla gracza ładuje scenę GameOver, dla wrogów dodaje punkty i spawnia power-up.
+    /// </summary>
     void Die()
     {
         if (isPlayer)
@@ -97,6 +111,9 @@ public class Health : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Spawnia efekt cząstek przy trafieniu — niszczy efekt po zakończeniu animacji.
+    /// </summary>
     void PlayHitParticles()
     {
         if (hitParticles != null)
@@ -106,17 +123,26 @@ public class Health : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Zwraca czy ten obiekt jest graczem czy wrogiem.
+    /// </summary>
     public bool GetIsPlayer()
     {
         return isPlayer;
     }
 
+    /// <summary>
+    /// Aktywuje tarczę — następne trafienie będzie zaabsorbowane, następnie tarcza się dezaktywuje.
+    /// </summary>
     public void ActivateShield()
     {
         isShieldActive = true;
         shieldAnimationManager.StartShieldAnimation();
     }
 
+    /// <summary>
+    /// Dezaktywuje tarczę — zatrzymuje animację i umożliwia zadanie obrażeń.
+    /// </summary>
     public void DeactivateShield()
     {
         isShieldActive = false;

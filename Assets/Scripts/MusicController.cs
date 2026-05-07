@@ -2,22 +2,30 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// Zarządza muzyką i głośnością w grze.
+/// Dynamicznie buduje UI z przyciskiem ikoną i suwakiem głośności.
+/// Pauzuje grę (Time.timeScale = 0) gdy panel ustawień jest otwarty.
+/// </summary>
 public class MusicController : MonoBehaviour
 {
     const string VOLUME_KEY = "MusicVolume";
 
-    static readonly Color orangeFill = new Color(1f,           0.6f,          0.1f, 1f);
-    static readonly Color blueFill   = new Color(0x49 / 255f,  0xFF / 255f,   0xF3 / 255f, 1f);
+    static readonly Color orangeFill = new Color(1f, 0.6f, 0.1f, 1f);
+    static readonly Color blueFill   = new Color(0x49 / 255f, 0xFF / 255f, 0xF3 / 255f, 1f);
 
-    [SerializeField] Sprite soundOnSprite;
-    [SerializeField] Sprite soundOffSprite;
+    [SerializeField] Sprite soundOnSprite;     // Ikona głośnika włączonego
+    [SerializeField] Sprite soundOffSprite;    // Ikona głośnika wyciszonego
 
-    Image      iconImage;
-    Slider     volumeSlider;
-    GameObject sliderPanel;
-    float      lastNonZeroVolume = 1f;
-    AudioSource musicSource;
+    Image iconImage;                      // Przycisk ikonya w prawym górnym rogu
+    Slider volumeSlider;                   // Suwak kontroli głośności
+    GameObject sliderPanel;                    // Panel z suwakiem (chowany domyślnie)
+    float lastNonZeroVolume = 1f;         // Ostatnia niezerowa głośność (do toggle mute)
+    AudioSource musicSource;                   // Źródło muzyki
 
+    /// <summary>
+    /// Inicjalizuje kontrolę głośności — wczytuje zapisaną wartość i buduje UI.
+    /// </summary>
     void Start()
     {
         musicSource = GetComponent<AudioSource>();
@@ -37,13 +45,18 @@ public class MusicController : MonoBehaviour
         RefreshIcon(saved);
     }
 
+    /// <summary>
+    /// Zwraca kolor paska suwaka zależnie od wybranego statku.
+    /// </summary>
     Color GetFillColor()
     {
         var cs = FindFirstObjectByType<CharSelectManager>();
         return (cs != null && cs.GetCurrentShipIndex() == 0) ? blueFill : orangeFill;
     }
 
-    // Icon button — top-right corner, toggles slider panel
+    /// <summary>
+    /// Dynamicznie buduje przycisk ikoną w prawym górnym rogu — toggleuje panel suwaka.
+    /// </summary>
     void BuildButton()
     {
         Canvas canvas = FindFirstObjectByType<Canvas>();
@@ -67,7 +80,10 @@ public class MusicController : MonoBehaviour
         btn.onClick.AddListener(ToggleSliderPanel);
     }
 
-    // Slider panel — hidden by default, appears to the left of the icon
+    /// <summary>
+    /// Dynamicznie buduje suwak głośności w panelu — domyślnie ukryty, pojawia się po lewej stronie ikony.
+    /// Konfiguruje Fill Area, Handle i kolory w zależności od wybranego statku.
+    /// </summary>
     void BuildSlider(Color fillColor)
     {
         Canvas canvas = FindFirstObjectByType<Canvas>();
@@ -132,6 +148,9 @@ public class MusicController : MonoBehaviour
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
     }
 
+    /// <summary>
+    /// Sprawdza co klatkę naciśnięcie klawisza M — przełącza tryb wyciszenia.
+    /// </summary>
     void Update()
     {
         if (Keyboard.current != null && Keyboard.current.mKey.wasPressedThisFrame)
@@ -140,6 +159,9 @@ public class MusicController : MonoBehaviour
 
     public static bool IsOpen { get; private set; }
 
+    /// <summary>
+    /// Pokazuje lub ukrywa panel suwaka — pauzuje grę (Time.timeScale = 0) gdy panel jest otwarty.
+    /// </summary>
     void ToggleSliderPanel()
     {
         if (sliderPanel == null) return;
@@ -149,13 +171,18 @@ public class MusicController : MonoBehaviour
         Time.timeScale = show ? 0f : 1f;
     }
 
+    /// <summary>
+    /// Czyszczenie: przywraca stan gry (IsOpen = false, Time.timeScale = 1f) gdy kontroler zostanie zniszczony.
+    /// </summary>
     void OnDestroy()
     {
         IsOpen         = false;
         Time.timeScale = 1f;
     }
 
-    // M key: toggle between 0 and last known volume
+    /// <summary>
+    /// Przełącza głośność między 0 a ostatnią niezerową wartością — wciśnięcie klawisza M.
+    /// </summary>
     void ToggleMute()
     {
         if (AudioListener.volume > 0f)
@@ -169,12 +196,18 @@ public class MusicController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Callback suwaka — uaktualnia głośność i zapisuje ostatnią niezerową wartość.
+    /// </summary>
     void OnVolumeChanged(float value)
     {
         if (value > 0f) lastNonZeroVolume = value;
         ApplyVolume(value);
     }
 
+    /// <summary>
+    /// Ustawia głośność na AudioListener, zapisuje do PlayerPrefs, aktualizuje suwak i ikonę.
+    /// </summary>
     void ApplyVolume(float value)
     {
         AudioListener.volume = value;
@@ -189,6 +222,9 @@ public class MusicController : MonoBehaviour
         RefreshIcon(value);
     }
 
+    /// <summary>
+    /// Aktualizuje wygląd ikony — zmienia sprite i przezroczystość w zależności od głośności (wyciszony/normalny).
+    /// </summary>
     void RefreshIcon(float volume)
     {
         if (iconImage == null) return;

@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Główny kontroler gracza — obsługuje ruch, strzelanie i mechanikę ładowania strzału.
+/// Korzysta z Unity Input System do odczytywania wejścia i State Pattern do zarządzania stanami ładowania.
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 0.3f;
@@ -21,12 +25,14 @@ public class PlayerController : MonoBehaviour
     ChargingAnimationManager chargingAnimationManager;
     AudioManager audioManager;
     ChargeBarManager chargeBarManager;
-    bool isPendingHold;
+    bool isPendingHold;                 // Stan: czeka się na próg 0.4s zanim przejdzie w ładowanie
     Coroutine chargeBarCoroutine;
 
+    /// <summary>
+    /// Inicjalizuje Input System akcje i znajduje menedżery systemów gry.
+    /// </summary>
     void Awake()
     {
-        // playerShooter = GetComponent<Shooter>();
         fireAction = InputSystem.actions.FindAction("Fire");
         moveAction = InputSystem.actions.FindAction("Move");
         chargingAnimationManager = FindFirstObjectByType<ChargingAnimationManager>();
@@ -34,11 +40,17 @@ public class PlayerController : MonoBehaviour
         chargeBarManager = FindFirstObjectByType<ChargeBarManager>();
     }
 
+    /// <summary>
+    /// Oblicza granice ekranu na podstawie kamery — umożliwia ruch gracza tylko w obrębie ekranu.
+    /// </summary>
     void Start()
     {
         InitializeBound();
     }
 
+    /// <summary>
+    /// Konwertuje koordinaty viewportu kamery na współrzędne świata.
+    /// </summary>
     void InitializeBound()
     {
         Camera mainCamera = Camera.main;
@@ -46,12 +58,18 @@ public class PlayerController : MonoBehaviour
         maxBound = mainCamera.ViewportToWorldPoint(new Vector2(1, 1));
     }
 
+    /// <summary>
+    /// Aktualizuje ruch i strzelanie gracza co klatkę.
+    /// </summary>
     void Update()
     {
         MovePlayer();
         FireShooter();
     }
 
+    /// <summary>
+    /// Porusza graczem na podstawie wejścia — ogranicza pozycję do granic ekranu.
+    /// </summary>
     void MovePlayer()
     {
         moveVector = moveAction.ReadValue<Vector2>();
@@ -63,6 +81,10 @@ public class PlayerController : MonoBehaviour
         transform.position = newPos;
     }
 
+    /// <summary>
+    /// Obsługuje logikę strzelania — maszyna stanów ładowania/normalnego ognia.
+    /// Sprawdza czy menu nie jest otwarte (pauzuje strzelanie).
+    /// </summary>
     void FireShooter()
     {
         if (MusicController.IsOpen)
@@ -96,6 +118,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Rejestruje callbacki Input System dla przycisków Fire.
+    /// </summary>
     void OnEnable()
     {
         fireAction.Enable();
@@ -105,6 +130,9 @@ public class PlayerController : MonoBehaviour
         fireAction.canceled += OnHoldCanceled;
     }
 
+    /// <summary>
+    /// Wyrejestruje callbacki Input System.
+    /// </summary>
     void OnDisable()
     {
         fireAction.started -= OnHoldStarted;
@@ -114,6 +142,10 @@ public class PlayerController : MonoBehaviour
         fireAction.Disable();
     }
 
+    /// <summary>
+    /// Callback: przycisk wciśnięty — wejście w stan isPendingHold.
+    /// Opóźnienie 0.2s zanim pojawi się pasek ładowania (filtruje szybkie kliknięcia).
+    /// </summary>
     void OnHoldStarted(InputAction.CallbackContext ctx)
     {
         if (MusicController.IsOpen) return;
@@ -121,12 +153,19 @@ public class PlayerController : MonoBehaviour
         chargeBarCoroutine = StartCoroutine(ShowChargeBarDelayed(0.2f));
     }
 
+    /// <summary>
+    /// Coroutine: opóźnienie przed pokazaniem paska ładowania.
+    /// </summary>
     IEnumerator ShowChargeBarDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
         chargeBarManager.PlayChargeBarAnimation();
     }
 
+    /// <summary>
+    /// Callback: przycisk przytrzymany dłużej — przejście do stanu ładowania.
+    /// Uruchamia animację ładowania i zmienia stan isCharging na true.
+    /// </summary>
     void OnHoldPerformed(InputAction.CallbackContext ctx)
     {
         if (MusicController.IsOpen) return;
@@ -135,6 +174,11 @@ public class PlayerController : MonoBehaviour
         chargingAnimationManager.PlayChargingAnimation();
     }
 
+    /// <summary>
+    /// Callback: przycisk zwolniony — wyjście ze stanu ładowania.
+    /// Jeśli gracz był w fazie ładowania → wystrzelenie naładowanego pocisku.
+    /// Jeśli tylko szybkie kliknięcie → normalny pojedynczy strzał.
+    /// </summary>
     void OnHoldCanceled(InputAction.CallbackContext ctx)
     {
         if (chargeBarCoroutine != null)
@@ -147,7 +191,6 @@ public class PlayerController : MonoBehaviour
 
         if (MusicController.IsOpen)
         {
-            // Reset stan bez strzelania
             playerShooter.isCharging   = false;
             playerShooter.chargeFiring = false;
             chargingAnimationManager.StopChargingAnimation();
