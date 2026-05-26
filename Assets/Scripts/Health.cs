@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
     {
         maxHealth = health;
         cameraShake = Camera.main.GetComponent<CameraShake>();
-        audioManager = FindFirstObjectByType<AudioManager>();
+        audioManager = AudioManager.Instance;
         scoreKeeper = FindFirstObjectByType<ScoreKeeper>();
         levelManager = FindFirstObjectByType<LevelManager>();
         powerUpSpawner = FindFirstObjectByType<PowerUpSpawner>();
@@ -44,6 +44,25 @@ public class Health : MonoBehaviour
     public int GetHealth()
     {
         return health;
+    }
+
+    /// <summary>
+    /// Zwraca maksymalne zdrowie — używane przez UI do obliczenia % paska zdrowia.
+    /// </summary>
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    /// <summary>
+    /// Zwiększa maksymalne zdrowie i bieżące zdrowie o tę samą wartość — wywoływane
+    /// przy zakupie ulepszenia HEALTH. Działa wyłącznie dla gracza.
+    /// </summary>
+    public void IncreaseMaxHealth(int amount)
+    {
+        if (!isPlayer || amount <= 0) return;
+        maxHealth += amount;
+        health += amount;
     }
 
     /// <summary>

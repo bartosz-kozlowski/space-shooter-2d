@@ -102,6 +102,7 @@ MonoBehaviour:
   bottomBoundPadding: 2.7
   topBoundPadding: 7
   playerShooter: {fileID: 7928215780213298425}
+  baseChargeReadyTime: 0.4
 --- !u!70 &2665549111893033136
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

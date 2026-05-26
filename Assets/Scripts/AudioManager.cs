@@ -1,11 +1,22 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 /// <summary>
-/// Zarządza efektami dźwiękowymi gry — strzały, obrażenia, ładowanie broni.
-/// Odtwarza dźwięki za pomocą AudioSource.PlayClipAtPoint w pozycji kamery.
+/// Zarządza efektami dźwiękowymi i muzyką w grze.
+/// Implementuje wzorzec Singleton dla łatwego dostępu.
+/// Integruje się z AudioMixerem dla profesjonalnej kontroli głośności.
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+
+    [Header("Mixer Settings")]
+    [SerializeField] AudioMixer audioMixer;
+    [SerializeField] AudioMixerGroup sfxGroup;
+    [SerializeField] string masterVolumeParam = "MasterVolume";
+    [SerializeField] string musicVolumeParam  = "MusicVolume";
+    [SerializeField] string sfxVolumeParam    = "SFXVolume";
+
     [Header("Shooting SFX")]
     [SerializeField] AudioClip shootingClip;
     [SerializeField] [Range(0, 1)] float shootingVolume = 1f;
@@ -22,47 +33,63 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip chargingShotClip;
     [SerializeField] [Range(0, 1)] float chargingShotVolumne = 1f;
 
-    /// <summary>
-    /// Odtwarza dźwięk w pozycji kamery z podaną głośnością — jeśli klip jest dostępny.
-    /// </summary>
-    public void PlayAudioClip(AudioClip clip, float volume)
+    private AudioSource sfxSource;
+
+    void Awake()
     {
-        if (clip != null)
+        if (Instance == null)
         {
-            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, volume);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            
+            // Inicjalizacja dedykowanego źródła SFX
+            sfxSource = gameObject.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    /// <summary>
-    /// Odtwarza dźwięk strzału.
-    /// </summary>
-    public void PlayShootingSFX()
+    void Start()
     {
-        PlayAudioClip(shootingClip, shootingVolume);
+        // Przypisanie grupy miksera do źródła SFX
+        if (sfxSource != null)
+        {
+            sfxSource.outputAudioMixerGroup = sfxGroup;
+        }
+        
+        LoadVolumeSettings();
+    }
+
+    public void SetVolume(string parameterName, float sliderValue)
+    {
+        float dbValue = sliderValue > 0.0001f ? Mathf.Log10(sliderValue) * 20 : -80f;
+        audioMixer.SetFloat(parameterName, dbValue);
+        PlayerPrefs.SetFloat(parameterName, sliderValue);
+    }
+
+    private void LoadVolumeSettings()
+    {
+        SetVolume(masterVolumeParam, PlayerPrefs.GetFloat(masterVolumeParam, 0.75f));
+        SetVolume(musicVolumeParam,  PlayerPrefs.GetFloat(musicVolumeParam,  0.75f));
+        SetVolume(sfxVolumeParam,    PlayerPrefs.GetFloat(sfxVolumeParam,    0.75f));
     }
 
     /// <summary>
-    /// Odtwarza dźwięk otrzymania obrażeń.
+    /// Odtwarza dźwięk przez źródło przypisane do odpowiedniej grupy miksera.
     /// </summary>
-    public void PlayTakeDamageSFX()
+    public void PlayAudioClip(AudioClip clip, float volume)
     {
-        PlayAudioClip(takeDamageClip, takeDamageVolumne);
+        if (clip != null && sfxSource != null)
+        {
+            sfxSource.PlayOneShot(clip, volume);
+        }
     }
 
-    /// <summary>
-    /// Odtwarza dźwięk rozpoczęcia ładowania broni.
-    /// </summary>
-    public void PlayChargeUpSFX()
-    {
-        PlayAudioClip(chargeUpClip, chargeUpVolumne);
-    }
-
-    /// <summary>
-    /// Odtwarza dźwięk wystrzelenia naładowanego strzału.
-    /// </summary>
-    public void PlayChargingShotSFX()
-    {
-        PlayAudioClip(chargingShotClip, chargingShotVolumne);
-    }
-    
+    public void PlayShootingSFX()      => PlayAudioClip(shootingClip, shootingVolume);
+    public void PlayTakeDamageSFX()    => PlayAudioClip(takeDamageClip, takeDamageVolumne);
+    public void PlayChargeUpSFX()      => PlayAudioClip(chargeUpClip, chargeUpVolumne);
+    public void PlayChargingShotSFX()  => PlayAudioClip(chargingShotClip, chargingShotVolumne);
 }

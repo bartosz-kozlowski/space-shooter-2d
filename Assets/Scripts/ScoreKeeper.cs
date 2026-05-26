@@ -57,4 +57,16 @@ public class ScoreKeeper : MonoBehaviour
     {
         score = 0;
     }
+
+    /// <summary>
+    /// Próbuje wydać punkty — zwraca true tylko gdy gracz miał dość punktów.
+    /// Operacja jest atomowa: albo wydajemy całość, albo nic.
+    /// </summary>
+    public bool SpendScore(int amount)
+    {
+        if (amount <= 0) return false;
+        if (score < amount) return false;
+        score -= amount;
+        return true;
+    }
 }

@@ -28,13 +28,14 @@ public class Shooter : MonoBehaviour
     Coroutine multiShotCoroutine;   // Referencja do czasu trwania MultiShot
     AudioManager audioManager;      // Zarządzanie dźwiękiem
     int extraProjectile = 0;        // Liczba dodatkowych pocisków (z power-upa)
+    UpgradeManager upgradeManager;  // Cache dla mnożnika obrażeń (lazy lookup)
 
     /// <summary>
     /// Znajduje AudioManager na scenie do odtwarzania dźwięków.
     /// </summary>
     void Awake()
     {
-        audioManager = FindFirstObjectByType<AudioManager>();
+        audioManager = AudioManager.Instance;
     }
 
     /// <summary>
@@ -74,16 +75,25 @@ public class Shooter : MonoBehaviour
 
     /// <summary>
     /// Oblicza losowy czas oczekiwania między strzałami (uwzględniając wariację).
+    /// Dla gracza: stosuje mnożnik RELOAD z UpgradeManager (skraca czas między strzałami).
     /// </summary>
     float CreateWaitTime()
     {
-        float waitTime = Random.Range(baseFireRate - fireRateVariance, baseFireRate + fireRateVariance);
+        float effectiveBase = baseFireRate;
+        if (!useAI)
+        {
+            if (upgradeManager == null) upgradeManager = FindFirstObjectByType<UpgradeManager>();
+            if (upgradeManager != null) effectiveBase *= upgradeManager.GetChargeTimeMultiplier();
+        }
+
+        float waitTime = Random.Range(effectiveBase - fireRateVariance, effectiveBase + fireRateVariance);
         waitTime = Mathf.Clamp(waitTime, minimumFireRate, float.MaxValue);
         return waitTime;
     }
 
     /// <summary>
     /// Tworzy instancję pocisku, nadaje mu prędkość i kierunek.
+    /// Pociski gracza otrzymują mnożnik obrażeń z UpgradeManager (jeśli dostępny).
     /// </summary>
     GameObject CreateProjectiles(GameObject prefab, float speed, Transform transf, Quaternion rotation, bool isMultiShot)
     {
@@ -102,7 +112,29 @@ public class Shooter : MonoBehaviour
         }
 
         projectileRB.linearVelocity = upVector * speed;
+        ApplyDamageUpgrade(projectile);
         return projectile;
+    }
+
+    /// <summary>
+    /// Skaluje obrażenia pocisku gracza według poziomu ulepszenia DAMAGE.
+    /// Pociski wrogów (useAI) pomijają tę logikę.
+    /// </summary>
+    void ApplyDamageUpgrade(GameObject projectile)
+    {
+        if (useAI) return;
+
+        if (upgradeManager == null)
+        {
+            upgradeManager = FindFirstObjectByType<UpgradeManager>();
+            if (upgradeManager == null) return;
+        }
+
+        DamageDealer damageDealer = projectile.GetComponent<DamageDealer>();
+        if (damageDealer != null)
+        {
+            damageDealer.MultiplyDamage(upgradeManager.GetDamageMultiplier());
+        }
     }
 
     /// <summary>

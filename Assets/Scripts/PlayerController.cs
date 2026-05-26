@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     ChargingAnimationManager chargingAnimationManager;
     AudioManager audioManager;
     ChargeBarManager chargeBarManager;
-    bool isPendingHold;                 // Stan: czeka się na próg 0.4s zanim przejdzie w ładowanie
+    bool isPendingHold;       // Przycisk wciśnięty, czeka na pełne naładowanie paska
     Coroutine chargeBarCoroutine;
 
     /// <summary>
@@ -36,8 +36,15 @@ public class PlayerController : MonoBehaviour
         fireAction = InputSystem.actions.FindAction("Fire");
         moveAction = InputSystem.actions.FindAction("Move");
         chargingAnimationManager = FindFirstObjectByType<ChargingAnimationManager>();
-        audioManager = FindFirstObjectByType<AudioManager>();
+        audioManager = AudioManager.Instance;
         chargeBarManager = FindFirstObjectByType<ChargeBarManager>();
+        chargeBarManager.OnChargeFull += OnChargeBarFull;
+    }
+
+    void OnDestroy()
+    {
+        if (chargeBarManager != null)
+            chargeBarManager.OnChargeFull -= OnChargeBarFull;
     }
 
     /// <summary>
@@ -82,12 +89,22 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Zwraca true, gdy któreś z menu pauzujących grę jest otwarte
+    /// (głośność lub ulepszenia) — wstrzymuje strzelanie.
+    /// </summary>
+    bool IsAnyMenuOpen()
+    {
+        return MusicController.IsOpen || UpgradeMenuController.IsOpen
+               || UIPointerBlocker.IsBlocking;
+    }
+
+    /// <summary>
     /// Obsługuje logikę strzelania — maszyna stanów ładowania/normalnego ognia.
     /// Sprawdza czy menu nie jest otwarte (pauzuje strzelanie).
     /// </summary>
     void FireShooter()
     {
-        if (MusicController.IsOpen)
+        if (IsAnyMenuOpen())
         {
             playerShooter.isFiring = false;
             return;
@@ -143,12 +160,12 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback: przycisk wciśnięty — wejście w stan isPendingHold.
-    /// Opóźnienie 0.2s zanim pojawi się pasek ładowania (filtruje szybkie kliknięcia).
+    /// Callback: przycisk wciśnięty — startuje pasek ładowania po 0.2s.
+    /// Stan isPendingHold blokuje normalny ogień do czasu pełnego naładowania lub puszczenia.
     /// </summary>
     void OnHoldStarted(InputAction.CallbackContext ctx)
     {
-        if (MusicController.IsOpen) return;
+        if (IsAnyMenuOpen()) return;
         isPendingHold = true;
         chargeBarCoroutine = StartCoroutine(ShowChargeBarDelayed(0.2f));
     }
@@ -163,15 +180,23 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback: przycisk przytrzymany dłużej — przejście do stanu ładowania.
-    /// Uruchamia animację ładowania i zmienia stan isCharging na true.
+    /// Callback z ChargeBarManager: pasek osiągnął 100% — przełącz w stan naładowany.
+    /// Timing pochodzi z dokładnie tego samego timera co animacja paska — zero desyncu.
     /// </summary>
-    void OnHoldPerformed(InputAction.CallbackContext ctx)
+    void OnChargeBarFull()
     {
-        if (MusicController.IsOpen) return;
+        if (IsAnyMenuOpen()) return;
         isPendingHold = false;
         playerShooter.isCharging = true;
         chargingAnimationManager.PlayChargingAnimation();
+    }
+
+    /// <summary>
+    /// Callback Input System Hold.performed — pomijany, timing sterowany przez ChargeBarManager.OnChargeFull.
+    /// Pozostaje zarejestrowany, by API Input System pozostało nienaruszone.
+    /// </summary>
+    void OnHoldPerformed(InputAction.CallbackContext ctx)
+    {
     }
 
     /// <summary>
@@ -189,7 +214,7 @@ public class PlayerController : MonoBehaviour
         isPendingHold = false;
         chargeBarManager.StopChargeBarAnimation();
 
-        if (MusicController.IsOpen)
+        if (IsAnyMenuOpen())
         {
             playerShooter.isCharging   = false;
             playerShooter.chargeFiring = false;

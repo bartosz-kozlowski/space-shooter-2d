@@ -3,233 +3,92 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
-/// Zarządza muzyką i głośnością w grze.
-/// Dynamicznie buduje UI z przyciskiem ikoną i suwakiem głośności.
-/// Pauzuje grę (Time.timeScale = 0) gdy panel ustawień jest otwarty.
+/// Prosty kontroler interfejsu audio.
+/// Odpowiada za przekazywanie wartości z suwaków UI do AudioManager.
+/// NIE buduje już interfejsu w kodzie — wymaga przypisania elementów w Inspektorze.
 /// </summary>
 public class MusicController : MonoBehaviour
 {
-    const string VOLUME_KEY = "MusicVolume";
-
-    static readonly Color orangeFill = new Color(1f, 0.6f, 0.1f, 1f);
-    static readonly Color blueFill   = new Color(0x49 / 255f, 0xFF / 255f, 0xF3 / 255f, 1f);
-
-    [SerializeField] Sprite soundOnSprite;     // Ikona głośnika włączonego
-    [SerializeField] Sprite soundOffSprite;    // Ikona głośnika wyciszonego
-
-    Image iconImage;                      // Przycisk ikonya w prawym górnym rogu
-    Slider volumeSlider;                   // Suwak kontroli głośności
-    GameObject sliderPanel;                    // Panel z suwakiem (chowany domyślnie)
-    float lastNonZeroVolume = 1f;         // Ostatnia niezerowa głośność (do toggle mute)
-    AudioSource musicSource;                   // Źródło muzyki
-
-    /// <summary>
-    /// Inicjalizuje kontrolę głośności — wczytuje zapisaną wartość i buduje UI.
-    /// </summary>
-    void Start()
-    {
-        musicSource = GetComponent<AudioSource>();
-        float saved = PlayerPrefs.GetFloat(VOLUME_KEY, 0.5f);
-        AudioListener.volume = saved;
-        lastNonZeroVolume    = saved > 0f ? saved : 0.5f;
-
-        Color fill = GetFillColor();
-        BuildButton();
-        BuildSlider(fill);
-
-        sliderPanel.SetActive(false);
-
-        if (volumeSlider != null)
-            volumeSlider.SetValueWithoutNotify(saved);
-
-        RefreshIcon(saved);
-    }
-
-    /// <summary>
-    /// Zwraca kolor paska suwaka zależnie od wybranego statku.
-    /// </summary>
-    Color GetFillColor()
-    {
-        var cs = FindFirstObjectByType<CharSelectManager>();
-        return (cs != null && cs.GetCurrentShipIndex() == 0) ? blueFill : orangeFill;
-    }
-
-    /// <summary>
-    /// Dynamicznie buduje przycisk ikoną w prawym górnym rogu — toggleuje panel suwaka.
-    /// </summary>
-    void BuildButton()
-    {
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas == null) return;
-
-        var root = new GameObject("MuteButton");
-        root.transform.SetParent(canvas.transform, false);
-
-        var rect = root.AddComponent<RectTransform>();
-        rect.anchorMin        = new Vector2(1f, 1f);
-        rect.anchorMax        = new Vector2(1f, 1f);
-        rect.pivot            = new Vector2(1f, 1f);
-        rect.anchoredPosition = new Vector2(-25f, -25f);
-        rect.sizeDelta        = new Vector2(80f, 80f);
-
-        iconImage = root.AddComponent<Image>();
-        iconImage.preserveAspect = true;
-
-        var btn = root.AddComponent<Button>();
-        btn.targetGraphic = iconImage;
-        btn.onClick.AddListener(ToggleSliderPanel);
-    }
-
-    /// <summary>
-    /// Dynamicznie buduje suwak głośności w panelu — domyślnie ukryty, pojawia się po lewej stronie ikony.
-    /// Konfiguruje Fill Area, Handle i kolory w zależności od wybranego statku.
-    /// </summary>
-    void BuildSlider(Color fillColor)
-    {
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas == null) return;
-
-        sliderPanel = new GameObject("VolumeSlider");
-        sliderPanel.transform.SetParent(canvas.transform, false);
-
-        var rootRect = sliderPanel.AddComponent<RectTransform>();
-        rootRect.anchorMin        = new Vector2(1f, 1f);
-        rootRect.anchorMax        = new Vector2(1f, 1f);
-        rootRect.pivot            = new Vector2(1f, 1f);
-        rootRect.anchoredPosition = new Vector2(-115f, -50f);
-        rootRect.sizeDelta        = new Vector2(150f, 30f);
-
-        var bg = sliderPanel.AddComponent<Image>();
-        bg.color = new Color(0f, 0f, 0f, 0.5f);
-
-        volumeSlider              = sliderPanel.AddComponent<Slider>();
-        volumeSlider.minValue     = 0f;
-        volumeSlider.maxValue     = 1f;
-        volumeSlider.wholeNumbers = false;
-        volumeSlider.direction    = Slider.Direction.LeftToRight;
-
-        var fillAreaGo   = new GameObject("Fill Area");
-        fillAreaGo.transform.SetParent(sliderPanel.transform, false);
-        var fillAreaRect = fillAreaGo.AddComponent<RectTransform>();
-        fillAreaRect.anchorMin = Vector2.zero;
-        fillAreaRect.anchorMax = Vector2.one;
-        fillAreaRect.offsetMin = new Vector2(5f,   3f);
-        fillAreaRect.offsetMax = new Vector2(-15f, -3f);
-
-        var fillGo   = new GameObject("Fill");
-        fillGo.transform.SetParent(fillAreaGo.transform, false);
-        var fillRect = fillGo.AddComponent<RectTransform>();
-        fillRect.anchorMin = Vector2.zero;
-        fillRect.anchorMax = new Vector2(0f, 1f);
-        fillRect.sizeDelta = Vector2.zero;
-        var fillImg  = fillGo.AddComponent<Image>();
-        fillImg.color = fillColor;
-
-        var handleAreaGo   = new GameObject("Handle Slide Area");
-        handleAreaGo.transform.SetParent(sliderPanel.transform, false);
-        var handleAreaRect = handleAreaGo.AddComponent<RectTransform>();
-        handleAreaRect.anchorMin = Vector2.zero;
-        handleAreaRect.anchorMax = Vector2.one;
-        handleAreaRect.offsetMin = new Vector2(10f,  0f);
-        handleAreaRect.offsetMax = new Vector2(-10f, 0f);
-
-        var handleGo   = new GameObject("Handle");
-        handleGo.transform.SetParent(handleAreaGo.transform, false);
-        var handleRect = handleGo.AddComponent<RectTransform>();
-        handleRect.sizeDelta = new Vector2(20f, 0f);
-        handleRect.anchorMin = new Vector2(0f, 0f);
-        handleRect.anchorMax = new Vector2(0f, 1f);
-        var handleImg  = handleGo.AddComponent<Image>();
-        handleImg.color = Color.white;
-
-        volumeSlider.fillRect      = fillRect;
-        volumeSlider.handleRect    = handleRect;
-        volumeSlider.targetGraphic = handleImg;
-        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
-    }
-
-    /// <summary>
-    /// Sprawdza co klatkę naciśnięcie klawisza M — przełącza tryb wyciszenia.
-    /// </summary>
-    void Update()
-    {
-        if (Keyboard.current != null && Keyboard.current.mKey.wasPressedThisFrame)
-            ToggleMute();
-    }
+    [Header("UI References")]
+    [SerializeField] GameObject settingsPanel;
+    [SerializeField] Slider masterSlider;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] Slider sfxSlider;
+    
+    [Header("Settings")]
+    [SerializeField] string masterParam = "MasterVolume";
+    [SerializeField] string musicParam  = "MusicVolume";
+    [SerializeField] string sfxParam    = "SFXVolume";
 
     public static bool IsOpen { get; private set; }
 
-    /// <summary>
-    /// Pokazuje lub ukrywa panel suwaka — pauzuje grę (Time.timeScale = 0) gdy panel jest otwarty.
-    /// </summary>
-    void ToggleSliderPanel()
+    void Start()
     {
-        if (sliderPanel == null) return;
-        bool show = !sliderPanel.activeSelf;
-        sliderPanel.SetActive(show);
-        IsOpen         = show;
+        // Inicjalizacja suwaków zapisanymi wartościami
+        if (masterSlider) masterSlider.value = PlayerPrefs.GetFloat(masterParam, 0.75f);
+        if (musicSlider)  musicSlider.value  = PlayerPrefs.GetFloat(musicParam,  0.75f);
+        if (sfxSlider)    sfxSlider.value    = PlayerPrefs.GetFloat(sfxParam,    0.75f);
+
+        // Dodanie listenerów - korzystamy z anonimowej funkcji, żeby zawsze odwoływać się do AKTUALNEJ instancji
+        if (masterSlider) masterSlider.onValueChanged.AddListener(val => {
+            if (AudioManager.Instance != null) AudioManager.Instance.SetVolume(masterParam, val);
+        });
+        
+        if (musicSlider)  musicSlider.onValueChanged.AddListener(val => {
+            if (AudioManager.Instance != null) AudioManager.Instance.SetVolume(musicParam, val);
+        });
+        
+        if (sfxSlider)    sfxSlider.onValueChanged.AddListener(val => {
+            if (AudioManager.Instance != null) AudioManager.Instance.SetVolume(sfxParam, val);
+        });
+
+        if (settingsPanel) settingsPanel.SetActive(false);
+    }
+
+    void Update()
+    {
+        // Jeśli panel jest otwarty i gracz naciśnie 'U' lub 'M', zamknij go
+        // Jeśli jest zamknięty i gracz naciśnie 'M', otwórz go
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.mKey.wasPressedThisFrame)
+            {
+                ToggleSettingsPanel();
+            }
+            else if (IsOpen && Keyboard.current.uKey.wasPressedThisFrame)
+            {
+                ToggleSettingsPanel();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Przełącza widoczność panelu ustawień i pauzuje grę.
+    /// Jeśli otwiera ten panel, zamyka panel ulepszeń.
+    /// </summary>
+    public void ToggleSettingsPanel()
+    {
+        if (settingsPanel == null) return;
+
+        bool show = !settingsPanel.activeSelf;
+
+        // Jeśli otwieramy menu audio, upewnij się że menu ulepszeń jest zamknięte
+        if (show && UpgradeMenuController.IsOpen)
+        {
+            var upgradeMenu = FindFirstObjectByType<UpgradeMenuController>();
+            if (upgradeMenu != null) upgradeMenu.TogglePanel();
+        }
+
+        settingsPanel.SetActive(show);
+        IsOpen = show;
+
+        // Pauza gry gdy menu jest otwarte
         Time.timeScale = show ? 0f : 1f;
     }
 
-    /// <summary>
-    /// Czyszczenie: przywraca stan gry (IsOpen = false, Time.timeScale = 1f) gdy kontroler zostanie zniszczony.
-    /// </summary>
     void OnDestroy()
     {
-        IsOpen         = false;
+        IsOpen = false;
         Time.timeScale = 1f;
-    }
-
-    /// <summary>
-    /// Przełącza głośność między 0 a ostatnią niezerową wartością — wciśnięcie klawisza M.
-    /// </summary>
-    void ToggleMute()
-    {
-        if (AudioListener.volume > 0f)
-        {
-            lastNonZeroVolume = AudioListener.volume;
-            ApplyVolume(0f);
-        }
-        else
-        {
-            ApplyVolume(lastNonZeroVolume);
-        }
-    }
-
-    /// <summary>
-    /// Callback suwaka — uaktualnia głośność i zapisuje ostatnią niezerową wartość.
-    /// </summary>
-    void OnVolumeChanged(float value)
-    {
-        if (value > 0f) lastNonZeroVolume = value;
-        ApplyVolume(value);
-    }
-
-    /// <summary>
-    /// Ustawia głośność na AudioListener, zapisuje do PlayerPrefs, aktualizuje suwak i ikonę.
-    /// </summary>
-    void ApplyVolume(float value)
-    {
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat(VOLUME_KEY, value);
-        PlayerPrefs.Save();
-        float sourceVol = musicSource != null ? musicSource.volume : 1f;
-        Debug.Log($"[MusicController] listener={value:F2} source={sourceVol:F2} final={value * sourceVol:F2}");
-
-        if (volumeSlider != null)
-            volumeSlider.SetValueWithoutNotify(value);
-
-        RefreshIcon(value);
-    }
-
-    /// <summary>
-    /// Aktualizuje wygląd ikony — zmienia sprite i przezroczystość w zależności od głośności (wyciszony/normalny).
-    /// </summary>
-    void RefreshIcon(float volume)
-    {
-        if (iconImage == null) return;
-        bool silent = volume <= 0f;
-        iconImage.sprite = silent ? soundOffSprite : soundOnSprite;
-        iconImage.color  = silent ? new Color(1f, 1f, 1f, 0.45f) : Color.white;
     }
 }

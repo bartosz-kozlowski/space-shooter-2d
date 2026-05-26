@@ -23,4 +23,13 @@ public class DamageDealer : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    /// <summary>
+    /// Skaluje obrażenia mnożnikiem — używane do aplikacji ulepszenia DAMAGE
+    /// na pocisk gracza w momencie jego instancjowania.
+    /// </summary>
+    public void MultiplyDamage(float multiplier)
+    {
+        damage = Mathf.Max(1, Mathf.RoundToInt(damage * multiplier));
+    }
 }

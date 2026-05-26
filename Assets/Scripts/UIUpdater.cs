@@ -19,7 +19,6 @@ public class UIUpdater : MonoBehaviour
     CharSelectManager charSelectManager;
     Health playerHeath;
     Health[] healthList;
-    float maxHealthPlayer;
 
     static readonly Color blueTop = new Color(0x49 / 255f, 0xFF / 255f, 0xF3 / 255f, 1f);
     static readonly Color blueBottom = new Color(0x6B / 255f, 0xAB / 255f, 0xFF / 255f, 1f);
@@ -34,8 +33,7 @@ public class UIUpdater : MonoBehaviour
         scoreKeeper = FindFirstObjectByType<ScoreKeeper>();
         charSelectManager = FindFirstObjectByType<CharSelectManager>();
 
-        maxHealthPlayer = playerHeath.GetHealth();
-        healthFillImage.fillAmount = playerHeath.GetHealth() / maxHealthPlayer;
+        healthFillImage.fillAmount = (float)playerHeath.GetHealth() / playerHeath.GetMaxHealth();
 
         ApplyScoreTextColor();
     }
@@ -77,10 +75,11 @@ public class UIUpdater : MonoBehaviour
 
     /// <summary>
     /// Aktualizuje HUD każdej klatce: wynik i pasek zdrowia gracza.
+    /// Czyta maxHealth dynamicznie — pasek pozostaje poprawny po zakupie ulepszenia HEALTH.
     /// </summary>
     void Update()
     {
         scoreText.text = scoreKeeper.GetScore().ToString("000000");
-        healthFillImage.fillAmount = playerHeath.GetHealth() / maxHealthPlayer;
+        healthFillImage.fillAmount = (float)playerHeath.GetHealth() / playerHeath.GetMaxHealth();
     }
 }
