@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   isPlayer: 1
   scoreValue: 0
-  health: 250
+  health: 300
   hitParticles: {fileID: 8814655494511697818, guid: 16e95d99c99e1f24299650008e854f11, type: 3}
   applyCameraShake: 1
   shieldAnimationManager: {fileID: 3175073897002278751}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73d700c63c293342bc486f3b03362d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 7
+  moveSpeed: 5
   leftBoundPadding: 1
   rightBoundPadding: 1
   bottomBoundPadding: 2.7
@@ -568,12 +568,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shooter
   projectilePrefab: {fileID: 7610256474329737854, guid: bc7f029f2e4d98e4ba727eb738d14b80, type: 3}
   chargeProjectilePrefab: {fileID: 7610256474329737854, guid: 371833b372647b2439d2a4377a6291ab, type: 3}
-  projectileSpeed: 8
+  projectileSpeed: 7
   projectileLifetime: 2
-  chargedProjectileSpeed: 9
+  chargedProjectileSpeed: 10
   useAI: 0
-  baseFireRate: 0.5
-  minimumFireRate: 0.5
+  baseFireRate: 0.3
+  minimumFireRate: 0.3
   fireRateVariance: 0
   isFiring: 0
   isCharging: 0

@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73d700c63c293342bc486f3b03362d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 11
+  moveSpeed: 10
   leftBoundPadding: 1
   rightBoundPadding: 1
   bottomBoundPadding: 2.7
@@ -569,10 +569,10 @@ MonoBehaviour:
   chargeProjectilePrefab: {fileID: 7610256474329737854, guid: c6d7e8f9a0b12345abcdef0123456706, type: 3}
   projectileSpeed: 10
   projectileLifetime: 2
-  chargedProjectileSpeed: 12
+  chargedProjectileSpeed: 20
   useAI: 0
-  baseFireRate: 1.5
-  minimumFireRate: 1.5
+  baseFireRate: 1.8
+  minimumFireRate: 1.8
   fireRateVariance: 0
   isFiring: 0
   isCharging: 0

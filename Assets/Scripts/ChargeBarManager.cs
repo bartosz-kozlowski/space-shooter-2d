@@ -9,8 +9,8 @@ public class ChargeBarManager : MonoBehaviour
     [SerializeField] Sprite[][] chargeBarFrames;   // Nieużywane — zamiast tego używamy blueFrames/orangeFrames
     [SerializeField] Sprite[] blueFrames;           // Klatki animacji dla niebieskiego statku
     [SerializeField] Sprite[] orangeFrames;         // Klatki animacji dla pomarańczowego statku
-    [SerializeField] float blueMaxChargeTime  = 5f; // Bazowy czas ładowania dla Blue
-    [SerializeField] float orangeMaxChargeTime = 4f; // Bazowy czas ładowania dla Orange
+    [SerializeField] float blueMaxChargeTime  = 6f; // Bazowy czas ładowania dla Blue
+    [SerializeField] float orangeMaxChargeTime = 3.5f; // Bazowy czas ładowania dla Orange
     float maxChargeTime;
     public float MaxChargeTime => maxChargeTime;
 
