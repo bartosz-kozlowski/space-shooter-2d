@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Shooter playerShooter;
     InputAction fireAction;
     ChargingAnimationManager chargingAnimationManager;
-    AudioManager audioManager;
+    AudioManager _audioManager;
+    AudioManager audioManager => _audioManager ??= AudioManager.Instance ?? FindFirstObjectByType<AudioManager>();
     ChargeBarManager chargeBarManager;
     bool isPendingHold;       // Przycisk wciśnięty, czeka na pełne naładowanie paska
     Coroutine chargeBarCoroutine;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         fireAction = InputSystem.actions.FindAction("Fire");
         moveAction = InputSystem.actions.FindAction("Move");
         chargingAnimationManager = FindFirstObjectByType<ChargingAnimationManager>();
-        audioManager = AudioManager.Instance;
+
         chargeBarManager = FindFirstObjectByType<ChargeBarManager>();
         chargeBarManager.OnChargeFull += OnChargeBarFull;
     }
@@ -113,10 +114,10 @@ public class PlayerController : MonoBehaviour
         if (playerShooter.isCharging)
         {
             playerShooter.isFiring = false;
-            audioManager.PlayChargeUpSFX();
 
             if (playerShooter.chargeFiring)
             {
+                audioManager.StopChargeUpSFX();
                 audioManager.PlayChargingShotSFX();
                 playerShooter.ChargeFire();
                 playerShooter.chargeFiring = false;
@@ -189,6 +190,7 @@ public class PlayerController : MonoBehaviour
         isPendingHold = false;
         playerShooter.isCharging = true;
         chargingAnimationManager.PlayChargingAnimation();
+        audioManager.PlayChargeUpSFX();
     }
 
     /// <summary>
@@ -216,6 +218,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsAnyMenuOpen())
         {
+            audioManager.StopChargeUpSFX();
             playerShooter.isCharging   = false;
             playerShooter.chargeFiring = false;
             chargingAnimationManager.StopChargingAnimation();
@@ -228,6 +231,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            audioManager.StopChargeUpSFX();
             playerShooter.FireOnce();
         }
     }

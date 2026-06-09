@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] [Range(0, 1)] float chargingShotVolumne = 1f;
 
     private AudioSource sfxSource;
+    private AudioSource chargeLoopSource;
 
     void Awake()
     {
@@ -41,10 +42,13 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            
-            // Inicjalizacja dedykowanego źródła SFX
+
             sfxSource = gameObject.AddComponent<AudioSource>();
             sfxSource.playOnAwake = false;
+
+            chargeLoopSource = gameObject.AddComponent<AudioSource>();
+            chargeLoopSource.playOnAwake = false;
+            chargeLoopSource.loop = true;
         }
         else
         {
@@ -54,12 +58,9 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        // Przypisanie grupy miksera do źródła SFX
-        if (sfxSource != null)
-        {
-            sfxSource.outputAudioMixerGroup = sfxGroup;
-        }
-        
+        if (sfxSource != null)        sfxSource.outputAudioMixerGroup        = sfxGroup;
+        if (chargeLoopSource != null) chargeLoopSource.outputAudioMixerGroup = sfxGroup;
+
         LoadVolumeSettings();
     }
 
@@ -88,8 +89,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayShootingSFX()      => PlayAudioClip(shootingClip, shootingVolume);
-    public void PlayTakeDamageSFX()    => PlayAudioClip(takeDamageClip, takeDamageVolumne);
+    public void PlayShootingSFX()     => PlayAudioClip(shootingClip, shootingVolume);
+    public void PlayTakeDamageSFX()   => PlayAudioClip(takeDamageClip, takeDamageVolumne);
+    public void PlayChargingShotSFX() => PlayAudioClip(chargingShotClip, chargingShotVolumne);
+
     public void PlayChargeUpSFX()      => PlayAudioClip(chargeUpClip, chargeUpVolumne);
-    public void PlayChargingShotSFX()  => PlayAudioClip(chargingShotClip, chargingShotVolumne);
+    public void StopChargeUpSFX()     { }
 }
