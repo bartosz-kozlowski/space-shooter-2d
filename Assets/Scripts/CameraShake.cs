@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Efekt drżenia kamery — tworzy wrażenie wstrząsu при trafieniu.
+/// Efekt drżenia kamery — tworzy wrażenie wstrząsu po trafieniu.
 /// Losowo przesuwa kamerę na określony czas, a następnie powraca do pierwotnej pozycji.
 /// </summary>
 public class CameraShake : MonoBehaviour
