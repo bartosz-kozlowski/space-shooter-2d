@@ -568,12 +568,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shooter
   projectilePrefab: {fileID: 7610256474329737854, guid: bc7f029f2e4d98e4ba727eb738d14b80, type: 3}
   chargeProjectilePrefab: {fileID: 7610256474329737854, guid: 371833b372647b2439d2a4377a6291ab, type: 3}
-  projectileSpeed: 7
+  projectileSpeed: 6
   projectileLifetime: 2
   chargedProjectileSpeed: 10
   useAI: 0
-  baseFireRate: 0.3
-  minimumFireRate: 0.3
+  baseFireRate: 0.6
+  minimumFireRate: 0.1
   fireRateVariance: 0
   isFiring: 0
   isCharging: 0

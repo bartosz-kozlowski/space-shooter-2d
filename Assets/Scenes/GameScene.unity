@@ -3078,8 +3078,8 @@ MonoBehaviour:
   - {fileID: 309699983128609790, guid: 14f85f135d60db14e8e3d47570a58da9, type: 3}
   - {fileID: -7664542099825032233, guid: 14f85f135d60db14e8e3d47570a58da9, type: 3}
   - {fileID: -5243648401534345504, guid: 14f85f135d60db14e8e3d47570a58da9, type: 3}
-  blueMaxChargeTime: 5
-  orangeMaxChargeTime: 4
+  blueMaxChargeTime: 6
+  orangeMaxChargeTime: 3
 --- !u!212 &851725073
 SpriteRenderer:
   serializedVersion: 2
