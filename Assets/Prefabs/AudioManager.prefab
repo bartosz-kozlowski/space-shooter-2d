@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2290182013686935896}
   - component: {fileID: 2549146371999910770}
   - component: {fileID: 5976819825165467713}
-  - component: {fileID: 3847291056738261045}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -46,14 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2f8304130e675418f71e39900ec0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  audioMixer: {fileID: 24100000, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
+  sfxGroup: {fileID: 52139789352385125, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
+  masterVolumeParam: MasterVolume
+  musicVolumeParam: MusicVolume
+  sfxVolumeParam: SFXVolume
   shootingClip: {fileID: 8300000, guid: b97accf44bfda92409ee1fd96935a0b4, type: 3}
   shootingVolume: 0.1
   takeDamageClip: {fileID: 8300000, guid: 2195ec7995139424a9383a0038936918, type: 3}
   takeDamageVolumne: 0.2
-  chargeUpClip: {fileID: 0}
-  chargeUpVolumne: 1
-  chargingShotClip: {fileID: 0}
-  chargingShotVolumne: 1
+  chargeUpClip: {fileID: 8300000, guid: bd83ebd94dd718b45b41487a4d70e6c4, type: 3}
+  chargeUpVolumne: 0.35
+  chargingShotClip: {fileID: 8300000, guid: 4cbf4765b32060a43a30546b3a7d6750, type: 3}
+  chargingShotVolumne: 0.1
 --- !u!82 &5976819825165467713
 AudioSource:
   m_ObjectHideFlags: 0
@@ -63,11 +67,11 @@ AudioSource:
   m_GameObject: {fileID: 7981261567976333287}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2877742591178698760, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: bedc77c4720f29a489d9674e85b681ce, type: 3}
+  m_Resource: {fileID: 8300000, guid: fb3d750c80be3ef4db1a2f7e29c54c92, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -151,17 +155,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3847291056738261045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7981261567976333287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f2a3b4c5d67890abcdef0123456789, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MusicController
-  soundOnSprite: {fileID: 6297055232021531023, guid: 62748a574215b214ca40440f9f87ff1a, type: 3}
-  soundOffSprite: {fileID: 1161608823702266113, guid: 24363b6bd8507044f8e380c404885845, type: 3}

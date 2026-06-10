@@ -2608,48 +2608,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: sfxGroup
-      value: 
-      objectReference: {fileID: 52139789352385125, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: audioMixer
-      value: 
-      objectReference: {fileID: 24100000, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: chargeUpClip
-      value: 
-      objectReference: {fileID: 8300000, guid: bd83ebd94dd718b45b41487a4d70e6c4, type: 3}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: chargeUpVolumne
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: chargingShotClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 4cbf4765b32060a43a30546b3a7d6750, type: 3}
-    - target: {fileID: 2549146371999910770, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: chargingShotVolumne
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5976819825165467713, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: m_Volume
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5976819825165467713, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 8300000, guid: fb3d750c80be3ef4db1a2f7e29c54c92, type: 3}
-    - target: {fileID: 5976819825165467713, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: -2877742591178698760, guid: d485eeadea89ea54da326da1fbe2bcaa, type: 2}
     - target: {fileID: 7981261567976333287, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3847291056738261045, guid: 23a01364d5b937043bbababb0970ee77, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
