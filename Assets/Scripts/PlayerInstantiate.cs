@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// Factory Pattern — enkapsuluje logikę tworzenia statku gracza.
+/// Factory Pattern - enkapsuluje logikę tworzenia statku gracza.
 /// Kod zewnętrzny wywołuje CreateShip() nie wiedząc nic o prefabach ani konfiguracji.
 /// </summary>
 public class PlayerInstantiate : MonoBehaviour
@@ -15,7 +15,7 @@ public class PlayerInstantiate : MonoBehaviour
     }
 
     /// <summary>
-    /// Fabryka statków — jedyne miejsce w kodzie które zna prefaby i decyduje który stworzyć.
+    /// Fabryka statków - jedyne miejsce w kodzie które zna prefaby i decyduje który stworzyć.
     /// </summary>
     GameObject CreateShip(int shipIndex)
     {

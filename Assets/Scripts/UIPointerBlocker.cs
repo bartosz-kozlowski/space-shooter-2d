@@ -1,9 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Dodaj ten komponent do dowolnego elementu UI który ma blokować strzelanie
-/// gdy kursor jest nad nim (np. przycisk UPGRADE).
+/// Blokuje strzelanie gdy kursor znajduje sie nad elementem UI (np. przycisk UPGRADE).
 /// </summary>
 public class UIPointerBlocker : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {

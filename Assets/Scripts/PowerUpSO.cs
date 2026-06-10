@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Abstrakcyjna klasa bazowa dla wszystkich typów power-upów.

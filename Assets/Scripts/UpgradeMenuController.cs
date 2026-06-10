@@ -1,10 +1,10 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
-/// Logika menu ulepszeń — toggle panelu, odświeżanie etykiet i interaktywności przycisków.
+/// Logika menu ulepszeń - toggle panelu, odświeżanie etykiet i interaktywności przycisków.
 /// Cała struktura UI (przycisk, panel, wiersze) jest tworzona w GameScene i
 /// przypisywana tu przez Inspectora. Pauzuje grę gdy panel jest otwarty.
 /// </summary>

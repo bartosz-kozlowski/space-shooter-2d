@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Singleton zarządzający wynikiem gracza podczas rozgrywki.
@@ -16,7 +16,7 @@ public class ScoreKeeper : MonoBehaviour
     }
 
     /// <summary>
-    /// Implementacja wzorca Singleton — zapewnia istnienie tylko jednej instancji.
+    /// Implementacja wzorca Singleton - zapewnia istnienie tylko jednej instancji.
     /// </summary>
     void ManageSingleton()
     {
@@ -59,7 +59,7 @@ public class ScoreKeeper : MonoBehaviour
     }
 
     /// <summary>
-    /// Próbuje wydać punkty — zwraca true tylko gdy gracz miał dość punktów.
+    /// Próbuje wydać punkty - zwraca true tylko gdy gracz miał dość punktów.
     /// Operacja jest atomowa: albo wydajemy całość, albo nic.
     /// </summary>
     public bool SpendScore(int amount)

@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Obsługuje wybór statku gracza w scenie CharSelect.
-/// Metody są wywoływane przez przyciski UI — zapisują wybór i przechodzą do gry.
+/// Metody są wywoływane przez przyciski UI - zapisują wybór i przechodzą do gry.
 /// </summary>
 public class CharSelect : MonoBehaviour
 {

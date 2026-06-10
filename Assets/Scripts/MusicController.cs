@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
 /// Prosty kontroler interfejsu audio.
 /// Odpowiada za przekazywanie wartości z suwaków UI do AudioManager.
-/// NIE buduje już interfejsu w kodzie — wymaga przypisania elementów w Inspektorze.
+/// NIE buduje już interfejsu w kodzie - wymaga przypisania elementów w Inspektorze.
 /// </summary>
 public class MusicController : MonoBehaviour
 {

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Animuje pasek ładowania strzału poprzez zmianę sprite'ów.
@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class ChargeBarManager : MonoBehaviour
 {
-    [SerializeField] Sprite[][] chargeBarFrames;   // Nieużywane — zamiast tego używamy blueFrames/orangeFrames
+    [SerializeField] Sprite[][] chargeBarFrames;   // Nieużywane - zamiast tego używamy blueFrames/orangeFrames
     [SerializeField] Sprite[] blueFrames;           // Klatki animacji dla niebieskiego statku
     [SerializeField] Sprite[] orangeFrames;         // Klatki animacji dla pomarańczowego statku
     [SerializeField] float blueMaxChargeTime  = 6f; // Bazowy czas ładowania dla Blue
@@ -70,7 +70,7 @@ public class ChargeBarManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uruchamia animację paska — wyświetla pasek i resetuje timer.
+    /// Uruchamia animację paska - wyświetla pasek i resetuje timer.
     /// Czas ładowania jest skalowany mnożnikiem z UpgradeManager (ulepszenie RELOAD).
     /// </summary>
     public void PlayChargeBarAnimation()
@@ -85,7 +85,7 @@ public class ChargeBarManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Zatrzymuje animację paska — ukrywa pasek.
+    /// Zatrzymuje animację paska - ukrywa pasek.
     /// </summary>
     public void StopChargeBarAnimation()
     {

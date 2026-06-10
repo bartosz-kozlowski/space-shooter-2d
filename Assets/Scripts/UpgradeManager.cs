@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 /// <summary>
-/// Zarządza systemem progresji statku — gracz wymienia punkty za wzmocnienia
+/// Zarządza systemem progresji statku - gracz wymienia punkty za wzmocnienia
 /// (obrażenia, szybsze ładowanie Power Shota, większe maksymalne zdrowie).
 /// Umieść ten komponent na GameObjectcie w GameScene i przypisz referencje w Inspectorze.
 /// Resetuje się automatycznie przy każdym załadowaniu sceny (nie DontDestroyOnLoad).
@@ -57,7 +57,7 @@ public class UpgradeManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Koszt następnego poziomu — rośnie liniowo (base × (level+1)).
+    /// Koszt następnego poziomu - rośnie liniowo (base × (level+1)).
     /// Zwraca -1 gdy osiągnięto MaxLevel.
     /// </summary>
     public int GetCost(UpgradeType type)

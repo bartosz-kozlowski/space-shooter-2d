@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Główny kontroler gracza — obsługuje ruch, strzelanie i mechanikę ładowania strzału.
+/// Główny kontroler gracza - obsługuje ruch, strzelanie i mechanikę ładowania strzału.
 /// Korzysta z Unity Input System do odczytywania wejścia i State Pattern do zarządzania stanami ładowania.
 /// </summary>
 public class PlayerController : MonoBehaviour
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Oblicza granice ekranu na podstawie kamery — umożliwia ruch gracza tylko w obrębie ekranu.
+    /// Oblicza granice ekranu na podstawie kamery - umożliwia ruch gracza tylko w obrębie ekranu.
     /// </summary>
     void Start()
     {
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Porusza graczem na podstawie wejścia — ogranicza pozycję do granic ekranu.
+    /// Porusza graczem na podstawie wejścia - ogranicza pozycję do granic ekranu.
     /// </summary>
     void MovePlayer()
     {
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Zwraca true, gdy któreś z menu pauzujących grę jest otwarte
-    /// (głośność lub ulepszenia) — wstrzymuje strzelanie.
+    /// (głośność lub ulepszenia) - wstrzymuje strzelanie.
     /// </summary>
     bool IsAnyMenuOpen()
     {
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Obsługuje logikę strzelania — maszyna stanów ładowania/normalnego ognia.
+    /// Obsługuje logikę strzelania - maszyna stanów ładowania/normalnego ognia.
     /// Sprawdza czy menu nie jest otwarte (pauzuje strzelanie).
     /// </summary>
     void FireShooter()
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback: przycisk wciśnięty — startuje pasek ładowania po 0.2s.
+    /// Callback: przycisk wciśnięty - startuje pasek ładowania po 0.2s.
     /// Stan isPendingHold blokuje normalny ogień do czasu pełnego naładowania lub puszczenia.
     /// </summary>
     void OnHoldStarted(InputAction.CallbackContext ctx)
@@ -181,8 +181,8 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback z ChargeBarManager: pasek osiągnął 100% — przełącz w stan naładowany.
-    /// Timing pochodzi z dokładnie tego samego timera co animacja paska — zero desyncu.
+    /// Callback z ChargeBarManager: pasek osiągnął 100% - przełącz w stan naładowany.
+    /// Timing pochodzi z dokładnie tego samego timera co animacja paska - zero desyncu.
     /// </summary>
     void OnChargeBarFull()
     {
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback Input System Hold.performed — pomijany, timing sterowany przez ChargeBarManager.OnChargeFull.
+    /// Callback Input System Hold.performed - pomijany, timing sterowany przez ChargeBarManager.OnChargeFull.
     /// Pozostaje zarejestrowany, by API Input System pozostało nienaruszone.
     /// </summary>
     void OnHoldPerformed(InputAction.CallbackContext ctx)
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback: przycisk zwolniony — wyjście ze stanu ładowania.
+    /// Callback: przycisk zwolniony - wyjście ze stanu ładowania.
     /// Jeśli gracz był w fazie ładowania → wystrzelenie naładowanego pocisku.
     /// Jeśli tylko szybkie kliknięcie → normalny pojedynczy strzał.
     /// </summary>

@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Spawnia fale wrogów zgodnie z konfiguracją WaveConfigSO — skaluje pozycje spawnu do rozdzielczości ekranu.
+/// Spawnia fale wrogów zgodnie z konfiguracją WaveConfigSO - skaluje pozycje spawnu do rozdzielczości ekranu.
 /// Obsługuje pętle fal i opóźnienia między nimi.
 /// </summary>
 public class EnemySpawner : MonoBehaviour
@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine: spawnia wrogów według fal z opóźnieniami — każdego wroga w pozycji startowej ze skalowaniem X.
+    /// Coroutine: spawnia wrogów według fal z opóźnieniami - każdego wroga w pozycji startowej ze skalowaniem X.
     /// Pętla się jeśli isLooping jest true.
     /// </summary>
     IEnumerator SpawnEnemies()
@@ -60,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
     public WaveConfigSO GetCurrentWave() => currentWave;
 
     /// <summary>
-    /// Zwraca skalę ścieżki dla rozdzielczości ekranu — używane do skalowania pozycji spawnu.
+    /// Zwraca skalę ścieżki dla rozdzielczości ekranu - używane do skalowania pozycji spawnu.
     /// </summary>
     public float GetPathScaleX() => pathScaleX;
 }

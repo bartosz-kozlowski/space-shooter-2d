@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Power-up: Aktywuje tarczę ochronną na graczu.

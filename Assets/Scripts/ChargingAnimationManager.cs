@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Steruje animacją postaci gracza podczas ładowania strzału.
@@ -17,7 +17,7 @@ public class ChargingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uruchamia animację ładowania — zmienia parametr "isCharging" na true.
+    /// Uruchamia animację ładowania - zmienia parametr "isCharging" na true.
     /// </summary>
     public void PlayChargingAnimation()
     {
@@ -25,7 +25,7 @@ public class ChargingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Zatrzymuje animację ładowania — zmienia parametr "isCharging" na false.
+    /// Zatrzymuje animację ładowania - zmienia parametr "isCharging" na false.
     /// </summary>
     public void StopChargingAnimation()
     {

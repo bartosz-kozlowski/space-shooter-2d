@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Steruje animacją naładowanego strzelania gracza.
@@ -17,7 +17,7 @@ public class ChargedShootingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uruchamia animację naładowanego strzelania — zmienia parametr "isShooting" na true.
+    /// Uruchamia animację naładowanego strzelania - zmienia parametr "isShooting" na true.
     /// </summary>
     public void PlayChargedShootingAnimation()
     {
@@ -25,7 +25,7 @@ public class ChargedShootingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Zatrzymuje animację naładowanego strzelania — zmienia parametr "isShooting" na false.
+    /// Zatrzymuje animację naładowanego strzelania - zmienia parametr "isShooting" na false.
     /// </summary>
     public void StopChargedShootingAnimation()
     {

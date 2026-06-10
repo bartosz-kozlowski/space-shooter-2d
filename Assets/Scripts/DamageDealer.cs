@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Komponent pocisku/pocisku określający ilość obrażeń zadanych przy trafieniu.
@@ -25,7 +25,7 @@ public class DamageDealer : MonoBehaviour
     }
 
     /// <summary>
-    /// Skaluje obrażenia mnożnikiem — używane do aplikacji ulepszenia DAMAGE
+    /// Skaluje obrażenia mnożnikiem - używane do aplikacji ulepszenia DAMAGE
     /// na pocisk gracza w momencie jego instancjowania.
     /// </summary>
     public void MultiplyDamage(float multiplier)

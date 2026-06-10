@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -17,7 +17,7 @@ public class CharSelectManager : MonoBehaviour
     static CharSelectManager instance;
 
     /// <summary>
-    /// Inicjalizuje Singleton — wykonuje ManageSingleton() aby zagwarantować jedną instancję.
+    /// Inicjalizuje Singleton - wykonuje ManageSingleton() aby zagwarantować jedną instancję.
     /// </summary>
     void Awake()
     {
@@ -25,7 +25,7 @@ public class CharSelectManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Implementacja wzorca Singleton — zapewnia istnienie tylko jednej instancji.
+    /// Implementacja wzorca Singleton - zapewnia istnienie tylko jednej instancji.
     /// </summary>
     void ManageSingleton()
     {

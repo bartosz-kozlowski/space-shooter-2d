@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Steruje animacją normalnego strzelania gracza.
@@ -17,7 +17,7 @@ public class NormalShootingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Uruchamia animację normalnego strzelania — zmienia parametr "isNormalShooting" na true.
+    /// Uruchamia animację normalnego strzelania - zmienia parametr "isNormalShooting" na true.
     /// </summary>
     public void PlayNormalShootingAnimation()
     {
@@ -25,7 +25,7 @@ public class NormalShootingAnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Zatrzymuje animację normalnego strzelania — zmienia parametr "isNormalShooting" na false.
+    /// Zatrzymuje animację normalnego strzelania - zmienia parametr "isNormalShooting" na false.
     /// </summary>
     public void StopNormalShootingAnimation()
     {

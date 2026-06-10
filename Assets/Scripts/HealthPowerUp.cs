@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Power-up: Leczenie gracza o określoną liczbę HP.

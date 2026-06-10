@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Steruje poruszaniem się wroga wzdłuż predefiniowanej trasy (waypointów).
@@ -13,7 +13,7 @@ public class PathFinding : MonoBehaviour
     int waypointIndex = 0;       // Indeks bieżącego waypointa
 
     /// <summary>
-    /// Inicjalizuje ścieżkę wroga — pobiera waypoints z bieżącej fali i przeskalowuje je do rozdzielczości.
+    /// Inicjalizuje ścieżkę wroga - pobiera waypoints z bieżącej fali i przeskalowuje je do rozdzielczości.
     /// </summary>
     void Start()
     {

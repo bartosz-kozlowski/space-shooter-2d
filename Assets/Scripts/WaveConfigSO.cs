@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Konfiguracja fali przeciwników przechowywana w pliku ScriptableObject.

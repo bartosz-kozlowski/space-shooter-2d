@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Zarządza zdrowiem gracza i wrogów — obsługuje obrażenia, tarczę, śmierć i spawning power-upów.
+/// Zarządza zdrowiem gracza i wrogów - obsługuje obrażenia, tarczę, śmierć i spawning power-upów.
 /// Rozróżnia zachowanie gracza (GameOver) od wrogów (dodanie wyniku, power-up przy śmierci).
 /// </summary>
 public class Health : MonoBehaviour
@@ -47,7 +47,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Zwraca maksymalne zdrowie — używane przez UI do obliczenia % paska zdrowia.
+    /// Zwraca maksymalne zdrowie - używane przez UI do obliczenia % paska zdrowia.
     /// </summary>
     public int GetMaxHealth()
     {
@@ -55,7 +55,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Zwiększa maksymalne zdrowie i bieżące zdrowie o tę samą wartość — wywoływane
+    /// Zwiększa maksymalne zdrowie i bieżące zdrowie o tę samą wartość - wywoływane
     /// przy zakupie ulepszenia HEALTH. Działa wyłącznie dla gracza.
     /// </summary>
     public void IncreaseMaxHealth(int amount)
@@ -74,7 +74,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Obsługuje kolizję z projektylami — pobiera obrażenia, odtwarza efekty i dźwięk.
+    /// Obsługuje kolizję z projektylami - pobiera obrażenia, odtwarza efekty i dźwięk.
     /// </summary>
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -95,7 +95,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Aplikuje obrażenia do zdrowia — jeśli tarcza jest aktywna, absorbuje jedno trafienie i się dezaktywuje.
+    /// Aplikuje obrażenia do zdrowia - jeśli tarcza jest aktywna, absorbuje jedno trafienie i się dezaktywuje.
     /// </summary>
     void TakeDamage(int damage)
     {
@@ -114,7 +114,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Obsługuje śmierć — dla gracza ładuje scenę GameOver, dla wrogów dodaje punkty i spawnia power-up.
+    /// Obsługuje śmierć - dla gracza ładuje scenę GameOver, dla wrogów dodaje punkty i spawnia power-up.
     /// </summary>
     void Die()
     {
@@ -131,7 +131,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawnia efekt cząstek przy trafieniu — niszczy efekt po zakończeniu animacji.
+    /// Spawnia efekt cząstek przy trafieniu - niszczy efekt po zakończeniu animacji.
     /// </summary>
     void PlayHitParticles()
     {
@@ -151,7 +151,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktywuje tarczę — następne trafienie będzie zaabsorbowane, następnie tarcza się dezaktywuje.
+    /// Aktywuje tarczę - następne trafienie będzie zaabsorbowane, następnie tarcza się dezaktywuje.
     /// </summary>
     public void ActivateShield()
     {
@@ -160,7 +160,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Dezaktywuje tarczę — zatrzymuje animację i umożliwia zadanie obrażeń.
+    /// Dezaktywuje tarczę - zatrzymuje animację i umożliwia zadanie obrażeń.
     /// </summary>
     public void DeactivateShield()
     {

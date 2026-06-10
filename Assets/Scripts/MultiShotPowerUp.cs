@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Power-up: Tymczasowo zwiększa liczbę pocisków wystrzelonych naraz.
@@ -11,7 +11,7 @@ public class MultiShotPowerUp : PowerUpSO
     [SerializeField] float duration;        // Czas trwania efektu
 
     /// <summary>
-    /// Aktywuje multi-shot na określony czas — gracz strzela wieloma pociskami.
+    /// Aktywuje multi-shot na określony czas - gracz strzela wieloma pociskami.
     /// </summary>
     public override void Apply(GameObject player)
     {

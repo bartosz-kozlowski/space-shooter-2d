@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// Efekt ruchu tła — przewija teksturę tła w kierunku określonym przez moveSpeed.
+/// Efekt ruchu tła - przewija teksturę tła w kierunku określonym przez moveSpeed.
 /// Tworzy wrażenie poruszającego się otoczenia bez przemieszczania obiektu.
 /// </summary>
 public class BackgroundScroller : MonoBehaviour
@@ -20,7 +20,7 @@ public class BackgroundScroller : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje przesunięcie tekstury co klatkę — tworzy efekt przewijania.
+    /// Aktualizuje przesunięcie tekstury co klatkę - tworzy efekt przewijania.
     /// </summary>
     void Update()
     {

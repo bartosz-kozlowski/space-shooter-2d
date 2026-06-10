@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// Komponent fizyki power-upa — odpowiada za spadanie i aplikowanie efektu gdy gracz go zbierze.
+/// Komponent fizyki power-upa - odpowiada za spadanie i aplikowanie efektu gdy gracz go zbierze.
 /// Power-up pada w dół (przy użyciu Rigidbody2D) i aktywuje się przy kolizji z graczem.
 /// </summary>
 public class PowerUpManager : MonoBehaviour
@@ -20,7 +20,7 @@ public class PowerUpManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Aktualizuje prędkość power-upa co klatkę — utrzymuje stały spadek.
+    /// Aktualizuje prędkość power-upa co klatkę - utrzymuje stały spadek.
     /// </summary>
     void Update()
     {
@@ -36,13 +36,13 @@ public class PowerUpManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Detekcja kolizji — jeśli gracz dotknie power-upa, zastosuj efekt i zniszcz obiekt.
+    /// Detekcja kolizji - jeśli gracz dotknie power-upa, zastosuj efekt i zniszcz obiekt.
     /// Weryfikuje kolizję zarówno poprzez layer jak i komponenty.
     /// </summary>
     void OnTriggerEnter2D(Collider2D collision)
     {
         int playerIndexLayer = LayerMask.NameToLayer("Player");
-        // Weryfikacja czy to gracz — sprawdzenie layera i komponentów
+        // Weryfikacja czy to gracz - sprawdzenie layera i komponentów
         Shooter shooter = collision.GetComponentInChildren<Shooter>();
         Health health = collision.GetComponent<Health>();
         bool isPlayer = (shooter != null) || (health != null);

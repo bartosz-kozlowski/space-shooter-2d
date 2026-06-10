@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Zarządza ładowaniem scen gry — przechodzi między scenami (GameScene, GameOver, MainMenu, CharSelectScene).
+/// Zarządza ładowaniem scen gry - przechodzi między scenami (GameScene, GameOver, MainMenu, CharSelectScene).
 /// Resetuje wynik przy starcie nowej gry, obsługuje opóźnienie dla animacji śmierci gracza.
 /// </summary>
 public class LevelManager : MonoBehaviour
@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Resetuje wynik i ładuje scenę GameScene — wywołane przy wyborze statku.
+    /// Resetuje wynik i ładuje scenę GameScene - wywołane przy wyborze statku.
     /// </summary>
     public void LoadGame()
     {
@@ -55,7 +55,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine: czeka zadany czas, następnie ładuje scenę — używane do opóźnień animacyjnych.
+    /// Coroutine: czeka zadany czas, następnie ładuje scenę - używane do opóźnień animacyjnych.
     /// </summary>
     IEnumerator WaitAndLoad(string sceneName, float delaySeconds)
     {

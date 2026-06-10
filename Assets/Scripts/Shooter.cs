@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -39,7 +39,7 @@ public class Shooter : MonoBehaviour
     }
 
     /// <summary>
-    /// Inicjalizuje strzelanie — jeśli to AI (wróg), automatycznie zaczyna strzelać.
+    /// Inicjalizuje strzelanie - jeśli to AI (wróg), automatycznie zaczyna strzelać.
     /// </summary>
     void Start()
     {

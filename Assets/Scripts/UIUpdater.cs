@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +25,7 @@ public class UIUpdater : MonoBehaviour
     static readonly Color orangeColor = new Color(1f, 0.5f, 0f, 1f);
 
     /// <summary>
-    /// Inicjalizuje HUD — znajduje gracza, singletonów i ustawia wstępne wartości.
+    /// Inicjalizuje HUD - znajduje gracza, singletonów i ustawia wstępne wartości.
     /// </summary>
     void Start()
     {
@@ -57,7 +57,7 @@ public class UIUpdater : MonoBehaviour
 
     /// <summary>
     /// Ustawia kolor tekstu wyniku w zależności od wybranego statku gracza.
-    /// Niebieski statek — gradient, zielony statek — pomarańczowy.
+    /// Niebieski statek - gradient, zielony statek - pomarańczowy.
     /// </summary>
     void ApplyScoreTextColor()
     {
@@ -75,7 +75,7 @@ public class UIUpdater : MonoBehaviour
 
     /// <summary>
     /// Aktualizuje HUD każdej klatce: wynik i pasek zdrowia gracza.
-    /// Czyta maxHealth dynamicznie — pasek pozostaje poprawny po zakupie ulepszenia HEALTH.
+    /// Czyta maxHealth dynamicznie - pasek pozostaje poprawny po zakupie ulepszenia HEALTH.
     /// </summary>
     void Update()
     {

@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Zarządza wyglądem paska zdrowia — ustawia sprite paska zależnie od wybranego statku.
+/// Zarządza wyglądem paska zdrowia - ustawia sprite paska zależnie od wybranego statku.
 /// Każdy statek ma inny wygląd paska zdrowia w UI.
 /// </summary>
 public class HPBarManager : MonoBehaviour
